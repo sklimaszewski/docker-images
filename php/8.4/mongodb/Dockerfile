@@ -1,5 +1,5 @@
 # Build arguments
-ARG VERSION=8.3
+ARG VERSION=8.4
 
 # Alpine base image
 FROM php:${VERSION}-fpm-alpine
@@ -26,13 +26,8 @@ RUN apk add --no-cache mongodb-tools && \
     docker-php-ext-install exif gd pcntl intl xsl zip
 
 # Imagick
-RUN curl -L -o /tmp/imagick.tar.gz https://github.com/Imagick/imagick/archive/7088edc353f53c4bc644573a79cdcd67a726ae16.tar.gz && \
-    tar --strip-components=1 -xf /tmp/imagick.tar.gz && \
-    phpize && \
-    ./configure && \
-    make && \
-    make install && \
-    echo "extension=imagick.so" > /usr/local/etc/php/conf.d/ext-imagick.ini
+RUN pecl install imagick-3.8.0 \
+    && docker-php-ext-enable imagick
 
 # Cleanup
 RUN apk del --no-cache dev-deps && \

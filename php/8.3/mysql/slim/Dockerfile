@@ -1,5 +1,5 @@
 # Build arguments
-ARG VERSION
+ARG VERSION=8.3
 
 # Alpine base image
 FROM php:${VERSION}-fpm-alpine
